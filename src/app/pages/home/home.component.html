@@ -1,0 +1,114 @@
+<section class="home-container">
+  <!-- RECURSOS/FONDOS -->
+  <div class="bg-weather">
+    <img src="assets/img/fondos/{{ this.finalUrlImg() }}.jpg" alt="" />
+    <div class="layer"></div>
+  </div>
+  <div class="wood">
+    <img src="/assets/img/mesa_sombra2.png" alt="" />
+  </div>
+  <div class="bg-cellphone">
+    <div class="bg">
+      <img src="assets/img/fondos/{{ this.finalUrlImg() }}.jpg" alt="" />
+    </div>
+  </div>
+  <div class="cellphone">
+    <img src="/assets/img/solo_celu.png" alt="" />
+  </div>
+
+  <div class="today-data">
+    {{ dayWeek }}, {{ day }} de {{ month }} | {{ city }}, Argentina
+  </div>
+
+  <!-- CAJAS FLOTANTES -->
+  <div class="floating-container">
+    <!-- HOY, TEMP, ICONO, DESCR -->
+    <div class="today-box">
+      <span>Hoy</span>
+      <div class="temp-icon">
+        <div class="temp">{{ temp }}°</div>
+        <img src="assets/img/icons/{{ icon }}.svg" alt="" />
+      </div>
+      <p>{{ descr }}</p>
+    </div>
+
+    <!-- MINIBOX VIENTO -->
+    <div class="one-status-today wind">
+      <div class="icon">
+        <img src="assets/img/viento.svg" alt="" />
+      </div>
+      <div class="desc">
+        <span>{{ wind }}</span>
+        <span>km</span>
+      </div>
+      <div class="title">Vien</div>
+    </div>
+
+    <!-- MINIBOX HUMEDAD -->
+    <div class="one-status-today hum">
+      <div class="icon">
+        <img src="assets/img/hum.svg" alt="" />
+      </div>
+      <div class="desc">
+        <span>{{ hum }}</span>
+        <span>%</span>
+      </div>
+      <div class="title">Hum</div>
+    </div>
+
+    <!-- MINIBOX PRESION -->
+    <div class="one-status-today press">
+      <div class="icon">
+        <img src="assets/img/presion.svg" alt="" />
+      </div>
+      <div class="desc">
+        <span>{{ press }}</span>
+        <span>hPa</span>
+      </div>
+      <div class="title">Pre</div>
+    </div>
+
+    <!-- CHART TEMPERATURA -->
+    <div class="chart-temp">
+      <h3>Temperatura</h3>
+      <div class="bar-line-container">
+        <div
+          class="column"
+          *ngFor="let b of this.temperature_2m; let i = index"
+          [style.height]="(this.temperature_2m[i] * 100) / 36 + '%'"
+        >
+          <div class="bar"></div>
+          <div class="label">
+            <span>{{ getMoment(i, this.time) }}</span>
+          </div>
+          <div class="label-temp" *ngIf="getHour(i) == 14 || getHour(i) == 4">
+            {{ this.temperature_2m[i].toFixed(0) }}°
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMANA -->
+    <div class="week-view">
+      <h3>Semana</h3>
+      <div class="row">
+        <ng-container *ngFor="let d of this.dailyTempMax; let i = index">
+          <div class="day-box" *ngIf="i != 0">
+            <span class="day-text">{{ this.getMoment(i, dailyTime) }}</span>
+            <img
+              src="/assets/img/climas/{{ getIconDaily(dailyCodeIcon[i]) }}.png"
+              alt=""
+              class="icon"
+            />
+            <span class="temp">
+              {{ dailyTempMax[i] }}° <b>{{ dailyTempMin[i] }}°</b>
+            </span>
+            <div class="prob-rain" *ngIf="dailyPrecip[i] > 0">
+              <img src="assets/img/rain.svg" alt="" /> {{ dailyPrecip[i] }}%
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
