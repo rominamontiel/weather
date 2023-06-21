@@ -1,0 +1,129 @@
+.loader-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(1deg, rgba(10, 26, 39, 0.459), rgba(76, 103, 125, 0.493));
+  backdrop-filter: blur(12px);
+
+  .svg-animation {
+    opacity: 0;
+    animation: opacityLoader 3s 0.3s forwards;
+
+    svg {
+        width: 250px;
+      height: 250px;
+      overflow: visible;
+      padding: 3.6rem 3rem 3rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      #nube {
+        animation: translateCloud 2s infinite alternate ease-in-out;
+      }
+      #nube-2 {
+        animation: translateCloud2 2.5s infinite alternate ease-in-out;
+      }
+      #lluvia {
+        .st2 {
+          opacity: 0;
+          animation: rain 1s 0s infinite ease-out;
+
+          @for $i from 1 through 10 {
+            &:nth-child(#{$i}n) {
+              animation-delay: #{$i * 0.1}s;
+            }
+          }
+        }
+      }
+    }
+
+    @keyframes translateCloud {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-5%);
+      }
+    }
+
+    @keyframes translateCloud2 {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(3%);
+      }
+    }
+
+    @keyframes rain {
+      0% {
+        opacity: 0;
+        transform: translateY(-2%);
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(8%);
+      }
+    }
+  }
+
+  @keyframes dibujaLineas {
+    0% {
+      stroke-dashoffset: 1322;
+      opacity: 0;
+    }
+
+    5% {
+      opacity: 1;
+    }
+
+    70% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes lluvia {
+    0% {
+      opacity: 0;
+      transform: translateY(-3rem);
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+  }
+
+  @keyframes opacityLoader {
+    0% {
+      opacity: 0;
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}

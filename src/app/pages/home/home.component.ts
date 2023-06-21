@@ -62,29 +62,48 @@ export class HomeComponent implements OnInit {
   dailyCodeIcon: number[] = [];
   dailyTime: string[] = [];
 
+  allDataReady = false;
+  aux = 0;
+
   constructor(
     private openWeatherService: OpenWeatherService,
     private openMeteoWeather: OpenMeteoWeatherService
   ) {}
 
   ngOnInit(): void {
-    this.getOpenWeatherData();
-    this.getOpenMeteoWeatherData();
+    this.loadData();
+  }
+
+  async loadData() {
+    this.allDataReady = false;
+    console.log('ESPERANDO');
+    setTimeout(async () => {
+      await this.getOpenWeatherData();
+      await this.getOpenMeteoWeatherData();
+      this.allDataReady = true;
+    }, 2000);
   }
 
   // ****************************************
   // ------------- OPEN WEATHER -------------
   // ****************************************
 
-  getOpenWeatherData() {
-    this.openWeatherService.getWeather().subscribe(
-      (res) => {
-        this.weather = res;
-        // console.log(res);
-        this.setData();
-      },
-      (err) => console.log(err)
-    );
+  async getOpenWeatherData() {
+    await new Promise<void>((resolve, reject) => {
+      this.openWeatherService.getWeather().subscribe(
+        (res) => {
+          this.weather = res;
+          this.setData();
+          console.log('OPENWEATHER: DATA LISTA');
+
+          resolve();
+        },
+        (err) => {
+          console.log(err);
+          reject(err);
+        }
+      );
+    });
   }
 
   setData() {
@@ -154,20 +173,32 @@ export class HomeComponent implements OnInit {
   // ---------- OPEN METEO WEATHER ----------
   // ****************************************
 
-  getOpenMeteoWeatherData() {
-    this.openMeteoWeather.getWeather().subscribe((datos) => {
-      console.log(datos);
-      //Por hora
-      this.temperature_2m = datos.hourly.temperature_2m;
-      this.temperature_2m = this.temperature_2m.filter((e, i) => i % 2 == 0); //reduzco el tamaño a la mitad
-      this.time = datos.hourly.time;
-      this.time = this.time.filter((e, i) => i % 2 == 0);
-      //Por día, 7 días
-      this.dailyPrecip = datos.daily.precipitation_probability_max;
-      this.dailyTempMax = datos.daily.temperature_2m_max;
-      this.dailyTempMin = datos.daily.temperature_2m_min;
-      this.dailyCodeIcon = datos.daily.weathercode;
-      this.dailyTime = datos.daily.time;
+  async getOpenMeteoWeatherData() {
+    await new Promise<void>((resolve, reject) => {
+      this.openMeteoWeather.getWeather().subscribe(
+        (response) => {
+          //Por hora
+          this.temperature_2m = response.hourly.temperature_2m;
+          this.temperature_2m = this.temperature_2m.filter(
+            (e, i) => i % 2 == 0
+          ); //reduzco el tamaño a la mitad
+          this.time = response.hourly.time;
+          this.time = this.time.filter((e, i) => i % 2 == 0);
+          //Por día, 7 días
+          this.dailyPrecip = response.daily.precipitation_probability_max;
+          this.dailyTempMax = response.daily.temperature_2m_max;
+          this.dailyTempMin = response.daily.temperature_2m_min;
+          this.dailyCodeIcon = response.daily.weathercode;
+          this.dailyTime = response.daily.time;
+          console.log('OPEN METEO: DATA LISTA');
+
+          resolve();
+        },
+        (error) => {
+          console.log(error);
+          reject(error);
+        }
+      );
     });
   }
 
@@ -191,7 +222,7 @@ export class HomeComponent implements OnInit {
     if (year == yearPrev && month == monthPrev && day == dayPrev) {
       label = '';
     } else {
-      label = day + ' ' + this.monthsName[month + 1].substring(0, 3);
+      label = day + ' ' + this.monthsName[month].substring(0, 3);
     }
 
     return label;
@@ -202,6 +233,38 @@ export class HomeComponent implements OnInit {
     const label = hour.getHours();
 
     return label;
+  }
+
+  getDayFormat(d: string): string {
+    const timeSelect = new Date(d);
+    const year = timeSelect.getFullYear();
+    const month = timeSelect.getMonth();
+    const day = timeSelect.getDate();
+
+    return year + '-' + month + '-' + day;
+  }
+
+  getMinMaxTemp(i: number): boolean {
+    let isVisible = false;
+    const dataSelected = this.getDayFormat(this.time[i]);
+
+    if (this.allDataReady) {
+      const array: number[] = [];
+
+      this.time.forEach((e, i) => {
+        const timeApi = this.getDayFormat(e);
+        if (timeApi == dataSelected) {
+          array.push(this.temperature_2m[i]);
+        }
+      });
+
+      const max = Math.max(...array);
+      const min = Math.min(...array);
+
+      isVisible =
+        this.temperature_2m[i] == max || this.temperature_2m[i] == min;
+    }
+    return isVisible;
   }
 
   //-----------------------
@@ -231,7 +294,7 @@ export class HomeComponent implements OnInit {
         icon = 'lluvia';
         break;
 
-      case [56, 57].includes(n):
+      case [56, 57, 51, 53, 55].includes(n):
         icon = 'lluvia_sol';
         break;
 
@@ -252,5 +315,28 @@ export class HomeComponent implements OnInit {
     }
 
     return icon;
+  }
+
+  //----------------------------------------------------------------
+
+  //Efecto Parallax Mouse
+  //HTML -> (mousemove)="parallax($event)"
+  parallax(event: MouseEvent) {
+    // const min = -9;
+    // const max = 9;
+    const speed = [-2, 1, 2, -1.5, 0.5, -1];
+
+    const elem = Array.from(
+      document.querySelectorAll('.move')
+    ) as HTMLElement[];
+
+    elem.forEach((e, i) => {
+      const x = (window.innerWidth - event.pageX * speed[i]) / 130;
+      const y = (window.innerHeight - event.pageY * speed[i]) / 130;
+
+      const style = `translateX(${x}px) translateY(${y}px)`;
+
+      e.style.transform = style;
+    });
   }
 }
