@@ -2,12 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { OpenMeteoWeatherService } from 'src/app/services/open-meteo-weather.service';
 import { OpenWeatherService } from 'src/app/services/open-wheater.service';
 
+export interface Position {
+  coords: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  userPosition = { lat: -34.61, long: -58.38 }; //Inicializo en Bs As
+  finishedLocation = false;
+  locationOff = false;
+
   weather: any;
   city: string = '';
   temp: number = 0;
@@ -71,17 +82,47 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.getUbication();
+  }
+
+  getUbication() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.userPosition.lat = position.coords.latitude;
+          this.userPosition.long = position.coords.longitude;
+          this.loadData();
+        },
+        (error) => {
+          console.log('no permite ubicacion ⛔');
+          this.locationOff = true;
+          this.loadData();
+        }
+      );
+    } else {
+      console.log('La geolocalización no es soportada por este navegador.');
+      this.loadData();
+    }
+  }
+
+  getCoords(position: Position) {
+    const { latitude, longitude } = position.coords;
+    console.log(`Latitud: ${latitude}`);
+    console.log(`Longitud: ${longitude}`);
+    // this.userPosition.lat = latitude
+    // this.userPosition.long = longitude;
+    // this.loadData();
   }
 
   async loadData() {
+    this.finishedLocation = true;    
     this.allDataReady = false;
     console.log('ESPERANDO');
     setTimeout(async () => {
       await this.getOpenWeatherData();
       await this.getOpenMeteoWeatherData();
       this.allDataReady = true;
-    }, 2000);
+    }, 1500);
   }
 
   // ****************************************
@@ -90,7 +131,7 @@ export class HomeComponent implements OnInit {
 
   async getOpenWeatherData() {
     await new Promise<void>((resolve, reject) => {
-      this.openWeatherService.getWeather().subscribe(
+      this.openWeatherService.getWeather(this.userPosition).subscribe(
         (res) => {
           this.weather = res;
           this.setData();
@@ -175,7 +216,7 @@ export class HomeComponent implements OnInit {
 
   async getOpenMeteoWeatherData() {
     await new Promise<void>((resolve, reject) => {
-      this.openMeteoWeather.getWeather().subscribe(
+      this.openMeteoWeather.getWeather(this.userPosition).subscribe(
         (response) => {
           //Por hora
           this.temperature_2m = response.hourly.temperature_2m;

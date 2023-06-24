@@ -11,7 +11,8 @@ export class OpenMeteoWeatherService {
 
   constructor(private http: HttpClient) {}
 
-  public getWeather(): Observable<any> {
-    return this.http.get(this.API_BSAS_TEMP_AND_DAYRESUME);
+  public getWeather(ubi: { lat: number; long: number }): Observable<any> {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${ubi.lat}&longitude=${ubi.long}&hourly=temperature_2m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`;
+    return this.http.get(url);
   }
 }

@@ -7,20 +7,61 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(1deg, rgba(10, 26, 39, 0.459), rgba(76, 103, 125, 0.493));
+  background: linear-gradient(
+    1deg,
+    rgba(10, 26, 39, 0.459),
+    rgba(76, 103, 125, 0.493)
+  );
   backdrop-filter: blur(12px);
 
   .svg-animation {
-    opacity: 0;
-    animation: opacityLoader 3s 0.3s forwards;
+    .location-loader {
+      opacity: 0;
+      animation: opacityLoader 3s 0.3s forwards;
+      width: 250px;
+      height: 250px;
+      overflow: visible;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: "";
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        border: 1px solid white;
+        position: absolute;
+        top: 82px;
+        right: 92px;
+        opacity: 0;
+        animation: ubiAnim infinite 2s linear;
+      }
+
+      &::after{
+        animation-delay: .5s;
+      }
+
+      img {
+        width: 60%;
+        margin-top: -0.7rem;
+      }
+    }
 
     svg {
-        width: 250px;
+      opacity: 0;
+      animation: opacityLoader 3s 0.3s forwards;
+      width: 250px;
       height: 250px;
       overflow: visible;
       padding: 3.6rem 3rem 3rem;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.05);
+
       #nube {
         animation: translateCloud 2s infinite alternate ease-in-out;
       }
@@ -74,25 +115,6 @@
     }
   }
 
-  @keyframes dibujaLineas {
-    0% {
-      stroke-dashoffset: 1322;
-      opacity: 0;
-    }
-
-    5% {
-      opacity: 1;
-    }
-
-    70% {
-      stroke-dashoffset: 0;
-    }
-
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-
   @keyframes lluvia {
     0% {
       opacity: 0;
@@ -124,6 +146,21 @@
 
     100% {
       opacity: 1;
+    }
+  }
+
+  @keyframes ubiAnim {
+    0% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(2);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(4);
     }
   }
 }

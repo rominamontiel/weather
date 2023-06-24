@@ -3,19 +3,17 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss']
+  styleUrls: ['./loader.component.scss'],
 })
 export class LoaderComponent implements OnInit {
   @Input() dataReady = false;
+  @Input() detectingLocation = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
-    console.log('🌞🌈', this.dataReady);
     
   }
-
 }

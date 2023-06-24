@@ -25,7 +25,8 @@
   </div>
 
   <div class="today-data">
-    {{ dayWeek }}, {{ day }} de {{ month }} | {{ city }}, Argentina
+    {{ dayWeek }}, {{ day }} de {{ month }} | {{ city }}
+    <img [src]="'assets/img/ubi' + (locationOff ? '_off' : '') + '.svg'" alt="">
   </div>
 
   <!-- CAJAS FLOTANTES -->
@@ -44,7 +45,7 @@
         </div>
   
         <!-- MINIBOX VIENTO -->
-        <div class="one-status-today wind float-anim" [style]="'--delay: 4'">
+        <div class="one-status-today wind float-anim" [style]="'--delay: 3'">
           <div class="icon">
             <img src="assets/img/viento.svg" alt="" />
           </div>
@@ -56,7 +57,7 @@
         </div>
   
         <!-- MINIBOX HUMEDAD -->
-        <div class="one-status-today hum float-anim" [style]="'--delay: 7'">
+        <div class="one-status-today hum float-anim" [style]="'--delay: 5'">
           <div class="icon">
             <img src="assets/img/hum.svg" alt="" />
           </div>
@@ -68,7 +69,7 @@
         </div>
   
         <!-- MINIBOX PRESION -->
-        <div class="one-status-today press float-anim" [style]="'--delay: 10'">
+        <div class="one-status-today press float-anim" [style]="'--delay: 7'">
           <div class="icon">
             <img src="assets/img/presion.svg" alt="" />
           </div>
@@ -85,7 +86,7 @@
     <div class="right-content">
       <div class="max-width">
         <!-- CHART TEMPERATURA -->
-        <div class="chart-temp float-anim" [style]="'--delay: 3'">
+        <div class="chart-temp float-anim" [style]="'--delay: 9'">
           <h3>Temperatura</h3>
           <div class="bar-line-container">
             <div
@@ -106,7 +107,7 @@
         </div>
   
         <!-- SEMANA -->
-        <div class="week-view float-anim" [style]="'--delay: 12'">
+        <div class="week-view float-anim" [style]="'--delay: 11'">
           <h3>Semana</h3>
           <div class="row">
             <ng-container *ngFor="let d of this.dailyTempMax; let i = index">
@@ -133,5 +134,5 @@
 </section>
 
 <div class="loader" *ngIf="!allDataReady">
-  <app-loader></app-loader>
+  <app-loader [detectingLocation]="finishedLocation" [dataReady]="allDataReady"></app-loader>
 </div>
