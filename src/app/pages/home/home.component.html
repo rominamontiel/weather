@@ -32,8 +32,8 @@
   <div class="floating-container" *ngIf="allDataReady">
     <!-- FLOTANTES IZQUIERDA 👈 -->
     <div class="left-content">
-      <!-- HOY, TEMP, ICONO, DESCR -->
-      <div class="move">
+      <div class="max-width">
+        <!-- HOY, TEMP, ICONO, DESCR -->
         <div class="today-box float-anim" [style]="'--delay: 1'">
           <span>Hoy</span>
           <div class="temp-icon">
@@ -42,10 +42,8 @@
           </div>
           <p>{{ descr }}</p>
         </div>
-      </div>
-
-      <!-- MINIBOX VIENTO -->
-      <div class="move">
+  
+        <!-- MINIBOX VIENTO -->
         <div class="one-status-today wind float-anim" [style]="'--delay: 4'">
           <div class="icon">
             <img src="assets/img/viento.svg" alt="" />
@@ -56,10 +54,8 @@
           </div>
           <div class="title">Vien</div>
         </div>
-      </div>
-
-      <!-- MINIBOX HUMEDAD -->
-      <div class="move">
+  
+        <!-- MINIBOX HUMEDAD -->
         <div class="one-status-today hum float-anim" [style]="'--delay: 7'">
           <div class="icon">
             <img src="assets/img/hum.svg" alt="" />
@@ -70,10 +66,8 @@
           </div>
           <div class="title">Hum</div>
         </div>
-      </div>
-
-      <!-- MINIBOX PRESION -->
-      <div class="move">
+  
+        <!-- MINIBOX PRESION -->
         <div class="one-status-today press float-anim" [style]="'--delay: 10'">
           <div class="icon">
             <img src="assets/img/presion.svg" alt="" />
@@ -89,8 +83,8 @@
 
     <!-- FLOTANTES DERECHA 👉 -->
     <div class="right-content">
-      <!-- CHART TEMPERATURA -->
-      <div class="move">
+      <div class="max-width">
+        <!-- CHART TEMPERATURA -->
         <div class="chart-temp float-anim" [style]="'--delay: 3'">
           <h3>Temperatura</h3>
           <div class="bar-line-container">
@@ -103,20 +97,15 @@
               <div class="label">
                 <span>{{ getMoment(i, this.time) }}</span>
               </div>
-              <div
-                class="label-temp"
-                *ngIf="getMinMaxTemp(i)"
-              >
-              <!-- *ngIf="getHour(i) == 14 || getHour(i) == 4" -->
+              <div class="label-temp" *ngIf="getMinMaxTemp(i)">
+                <!-- *ngIf="getHour(i) == 14 || getHour(i) == 4" -->
                 {{ this.temperature_2m[i].toFixed(0) }}°
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- SEMANA -->
-      <div class="move">
+  
+        <!-- SEMANA -->
         <div class="week-view float-anim" [style]="'--delay: 12'">
           <h3>Semana</h3>
           <div class="row">
@@ -124,9 +113,7 @@
               <div class="day-box" *ngIf="i != 0">
                 <span class="day-text">{{ this.getMoment(i, dailyTime) }}</span>
                 <img
-                  src="assets/img/climas/{{
-                    getIconDaily(dailyCodeIcon[i])
-                  }}.png"
+                  src="assets/img/climas/{{ getIconDaily(dailyCodeIcon[i]) }}.png"
                   alt=""
                   class="icon"
                 />

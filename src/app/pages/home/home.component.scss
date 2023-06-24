@@ -18,7 +18,7 @@
 }
 
 //Solo para el parallax, no hace nada, se puede sacar
-.move{
+.move {
   width: 100% !important;
   height: 100% !important;
   position: absolute;
@@ -143,9 +143,9 @@
     position: absolute;
     left: 1rem;
     top: 1rem;
-    font-size: 11px;
-    font-weight: 100;
-    color: rgba(255, 255, 255, 0.478);
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
   }
 
   .floating-container {
@@ -154,12 +154,29 @@
     height: 100%;
     overflow: hidden;
 
+    .left-content,
+    .right-content {
+      .max-width {
+        width: 100%;
+        max-width: 730px;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
     .left-content {
       position: absolute;
       left: 0;
       top: 0;
       width: 50vw;
       height: 100vh;
+      padding-right: 19vh;
+
+      .max-width {
+        margin-left: auto;
+      }
 
       .today-box {
         @extend .box-floating;
@@ -170,7 +187,7 @@
         align-items: center;
         justify-content: center;
         position: absolute;
-        right: 30vh;
+        // right: 0;
         top: 10%;
 
         span {
@@ -255,17 +272,16 @@
 
         &.wind {
           top: 40%;
-          right: 30vh;
+          margin-left: 28vh;
         }
 
         &.hum {
           top: 50%;
-          right: 45vh;
         }
 
         &.press {
           top: 40%;
-          right: 61vh;
+          margin-right: 28vh;
 
           .desc span:nth-child(1) {
             font-size: 22px;
@@ -281,136 +297,135 @@
       top: 0;
       width: 50vw;
       height: 100vh;
-    }
+      padding-left: 19vh;
 
-    .chart-temp {
-      @extend .box-floating;
-      position: absolute;
-      left: 22vh;
-      top: 10%;
-      width: 570px;
-      height: 204px;
-      padding-left: 1.5rem;
-      overflow-x: scroll;
+      .chart-temp {
+        @extend .box-floating;
+        position: absolute;
+        top: 10%;
+        width: 570px;
+        height: 204px;
+        padding-left: 1.5rem;
+        overflow-x: scroll;
 
-      h3 {
-        font-weight: 300;
-        font-size: 18px;
-        margin: 1.5rem 0;
-      }
+        h3 {
+          font-weight: 300;
+          font-size: 18px;
+          margin: 1.5rem 0;
+        }
 
-      .bar-line-container {
-        height: 80px;
-        width: max-content;
-        display: flex;
-        align-items: flex-end;
+        .bar-line-container {
+          height: 80px;
+          width: max-content;
+          display: flex;
+          align-items: flex-end;
 
-        .column {
-          width: 4px;
-          margin-right: 2px;
-          position: relative;
-
-          .bar {
-            width: 100%;
-            height: 100%;
-            background-color: #8ec6ef;
-            border-radius: 10px 10px 0 0;
+          .column {
+            width: 4px;
+            margin-right: 2px;
             position: relative;
-            color: white;
-            text-align: center;
-            font-size: 10px;
-            padding-top: 3px;
-            background: linear-gradient(
-              0deg,
-              #84a6ff -2px,
-              #a4ffce 18px,
-              #ffe99d 45px,
-              #ffc596 55px,
-              #ff8f8f 70px
-            );
-          }
 
-          .label {
-            width: max-content;
-
-            span {
-              font-size: 11px;
-              font-weight: 300;
-              white-space: nowrap;
+            .bar {
+              width: 100%;
+              height: 100%;
+              background-color: #8ec6ef;
+              border-radius: 10px 10px 0 0;
+              position: relative;
+              color: white;
+              text-align: center;
+              font-size: 10px;
+              padding-top: 3px;
+              background: linear-gradient(
+                0deg,
+                #84a6ff -2px,
+                #a4ffce 18px,
+                #ffe99d 45px,
+                #ffc596 55px,
+                #ff8f8f 70px
+              );
             }
-          }
 
-          .label-temp {
-            position: absolute;
-            top: -15px;
-            left: -3px;
-            font-size: 9px;
-            font-weight: 100;
-            color: rgba(255, 255, 255, 0.7);
+            .label {
+              width: max-content;
+
+              span {
+                font-size: 11px;
+                font-weight: 300;
+                white-space: nowrap;
+              }
+            }
+
+            .label-temp {
+              position: absolute;
+              top: -15px;
+              left: -3px;
+              font-size: 9px;
+              font-weight: 100;
+              color: rgba(255, 255, 255, 0.7);
+            }
           }
         }
       }
-    }
 
-    .week-view {
-      @extend .box-floating;
-      position: absolute;
-      left: 22vh;
-      top: 40%;
-      width: 570px;
-      height: 220px;
-      padding: 1.5rem;
+      .week-view {
+        @extend .box-floating;
+        position: absolute;
+        top: 40%;
+        width: 570px;
+        height: 220px;
+        padding: 1.5rem;
 
-      h3 {
-        font-weight: 300;
-        font-size: 18px;
-        margin: 0;
-      }
+        h3 {
+          font-weight: 300;
+          font-size: 18px;
+          margin: 0;
+        }
 
-      .row {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1.5rem;
-
-        .day-box {
-          margin-right: 1.2rem;
+        .row {
           display: flex;
-          flex-direction: column;
-          align-items: center;
+          justify-content: space-between;
+          margin-top: 1.5rem;
 
-          &:last-child {
-            margin-right: 0;
-          }
-
-          .day-text {
-            font-size: 12px;
-          }
-
-          .icon {
-            width: 67px;
-          }
-
-          .temp {
-            font-size: 12px;
-            font-weight: 300;
-
-            b {
-              color: rgba(255, 255, 255, 0.6);
-              font-weight: 300;
-              margin-left: 0.2rem;
-            }
-          }
-
-          .prob-rain {
-            font-size: 10px;
-            color: #7fd8ff;
-            margin-top: 0.3rem;
+          .day-box {
+            margin-right: 1.2rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
 
-            img {
-              width: 12px;
-              margin-right: 3px;
+            &:last-child {
+              margin-right: 0;
+            }
+
+            .day-text {
+              font-size: 12px;
+            }
+
+            .icon {
+              width: 67px;
+            }
+
+            .temp {
+              font-size: 12px;
+              font-weight: 300;
+
+              b {
+                color: rgba(255, 255, 255, 0.6);
+                font-weight: 300;
+                margin-left: 0.2rem;
+              }
+            }
+
+            .prob-rain {
+              font-size: 10px;
+              color: #7fd8ff;
+              margin-top: 0.3rem;
+              display: flex;
+              align-items: center;
+
+              img {
+                width: 12px;
+                margin-right: 3px;
+              }
             }
           }
         }
@@ -442,5 +457,269 @@
   }
   100% {
     transform: translateY(2rem);
+  }
+}
+
+@media (max-width: 1600px) {
+  .box-floating {
+    border-radius: 24px;
+  }
+
+  .home-container {
+    .floating-container {
+      .left-content {
+        .max-width {
+          .today-box {
+            width: calc(330px * 0.7);
+            height: calc(200px * 0.8);
+
+            span {
+              font-size: 14px;
+            }
+
+            .temp-icon {
+              .temp {
+                font-size: 50px;
+              }
+
+              img {
+                height: 50px;
+              }
+            }
+
+            p {
+              font-size: 16px;
+            }
+          }
+
+          .one-status-today {
+            border-radius: 2rem;
+            padding: 8px 0;
+            width: 52px;
+            height: 140px;
+
+            .icon {
+              width: 36px;
+              height: 36px;
+            }
+
+            .desc {
+              span {
+                &:nth-child(1) {
+                  font-size: 22px;
+                }
+
+                &:nth-child(2) {
+                  font-size: 11px;
+                }
+              }
+            }
+
+            .title {
+              font-size: 12px;
+            }
+
+            &.press {
+              .desc {
+                &:nth-child(1) {
+                  font-size: 19px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .right-content {
+        .max-width {
+          .chart-temp {
+            border-radius: 20px;
+            padding-left: 1rem;
+            width: 470px;
+            height: 150px;
+            padding: 1rem;
+
+            h3 {
+              margin: 0;
+              font-size: 15px;
+            }
+
+            .bar-line-container {
+              height: 70px;
+
+              .column {
+                width: 4.2px;
+                margin-right: 1px;
+              }
+            }
+          }
+
+          .week-view {
+            width: 470px;
+            height: 150px;
+            padding: 0.8rem 1rem;
+
+            h3 {
+              margin: 0;
+              font-size: 15px;
+            }
+
+            .row {
+              margin-top: 0.5rem;
+
+              .day-box {
+                margin-right: 0.8rem;
+
+                .day-text {
+                  font-size: 11px;
+                }
+
+                .icon {
+                  width: 55px;
+                }
+
+                .temp {
+                  font-size: 9px;
+                }
+
+                .prob-rain {
+                  font-size: 9px;
+
+                  img {
+                    width: 10px;
+                    margin-right: 2px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .home-container {
+    height: 200vh;
+
+    .today-data {
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .floating-container {
+      overflow: visible;
+
+      .left-content {
+        width: 100vw;
+        padding: 0;
+        height: 50vh;
+
+        .max-width {
+          max-width: initial;
+        }
+
+        .today-box {
+          top: 11%;
+          width: 90vh;
+        }
+
+        .one-status-today {
+          top: 60% !important;
+          height: 127px;
+
+          .icon {
+            width: 32px;
+            height: 32px;
+
+            img {
+              width: 16px;
+            }
+          }
+
+          .desc {
+            span {
+              &:nth-child(1) {
+                font-size: 18px !important;
+              }
+            }
+          }
+        }
+      }
+
+      .right-content {
+        width: 100vw;
+        padding: 0;
+        height: 50vh;
+        top: 50vh;
+
+        .max-width {
+          max-width: initial;
+
+          .chart-temp {
+            width: 90vw;
+            top: 6%;
+
+            h3 {
+              position: sticky;
+              left: 0;
+            }
+
+            .bar-line-container {
+              width: 100%;
+
+              .column {
+                width: initial;
+                flex: 1;
+                margin-right: 1px;
+              }
+            }
+          }
+
+          .week-view {
+            overflow-x: scroll;
+            width: 90vw;
+            overflow-y: hidden;
+            top: 190px;
+
+            h3 {
+              position: sticky;
+              left: 0;
+            }
+
+            .row {
+              margin-top: 0.8rem;
+
+              .day-box {
+                margin-right: 0.4rem;
+
+                .day-text {
+                  font-size: 10px;
+                }
+
+                .icon {
+                  width: 44px;
+                }
+
+                .temp {
+                  white-space: nowrap;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes floating {
+    0% {
+      transform: translateY(0rem);
+    }
+    100% {
+      transform: translateY(1rem);
+    }
   }
 }
